@@ -5,19 +5,22 @@ function searchGIF(input) {
         $("#result").html("");
         for(var i = 0; i < data.length; i++) {
             for(var j = 0; j < keyword.length; j++) {
-                if(data[i][1].search(keyword[j]) != -1) {
+                if(data[i]['tags'].search(keyword[j]) != -1) {
                     result.push(data[i]);
                 }
             }
         }
         if(result.length > 0 ) {
             for(var i = 0; i < result.length; i++) {
-                $("#result").append("<img id=\"gif\" src='" + result[i][0] + "'/>");
+                $("#result").append("<img id=\"gif\" src='" + result[i]['animatedUrl'] + "'/>");
             }
+        }
+        else {
+            $("#result").append("No result found.");
         }
     }
     else if(input.length == 0) {
-        $("#result").html("");
+        $("#result").html("Please enter something or click one of the links given above.");
     }
 }
 $(document).ready(function() {
@@ -40,5 +43,9 @@ $(document).ready(function() {
         $temp.remove();
         window.close();
         open(location, '_self').close();
+    });
+    $('body').on('click','a',function(){
+        var input = $(this).html();
+        searchGIF(input);
     });
 });
